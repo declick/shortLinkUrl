@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/style.css" type="text/css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+<body>
+  <%- include('partials/header', { title: 'Dashboard', user: user }) %>
+  <div class="content">
+    <h1>Dashboard</h1>
+    <ul id="url-list">
+      <% urls.forEach(url => { %>
+        <li id="url-<%= url.shortUrl %>">
+          <a href="<%= req.protocol %>://<%= req.get('host') %>/u/<%= url.shortUrl %>">
+            <%= req.protocol %>://<%= req.get('host') %>/u/<%= url.shortUrl %>
+          </a> - <%= url.originalUrl %>
+          <ul>
+            <li><strong>Date Created:</strong> <%= new Date(url.createdAt).toLocaleString() %></li>
+            <li><strong>Clicks:</strong> <span id="clicks-<%= url.shortUrl %>"><%= url.clicks.length %></span></li>
+            <li><a href="/analytics/<%= url.shortUrl %>">View Analytics</a></li>
+            <li><button onclick="confirmDelete('<%= url.shortUrl %>')">Delete</button></li>
+          </ul>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+  <%- include('partials/footer') %>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const socket = io();
+
+    socket.on('clickUpdate', function(data) {
+      document.getElementById('clicks-' + data.shortUrl).innerText = data.clickCount;
+    });
+
+    socket.on('urlDeleted', function(data) {
+      const urlElement = document.getElementById('url-' + data.shortUrl);
+      if (urlElement) {
+        urlElement.remove();
+      }
+    });
+
+    function confirmDelete(shortUrl) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteUrl(shortUrl);
+        }
+      });
+    }
+
+    function deleteUrl(shortUrl) {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      fetch('/dashboard/' + shortUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
+        }
+      }).then(response => {
+        if (response.ok) {
+          socket.emit('urlDeleted', { shortUrl: shortUrl });
+          Swal.fire(
+            'Deleted!',
+            'Your short URL has been deleted.',
+            'success'
+          );
+        } else {
+          Swal.fire(
+            'Error!',
+            'There was an error deleting your short URL.',
+            'error'
+          );
+        }
+      });
+    }
+  </script>
+</body>
+</html>

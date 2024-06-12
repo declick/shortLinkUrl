@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+<body>
+  <%- include('partials/header', { title: 'Sign Up', user: user }) %>
+  <div class="content">
+    <h1>Sign Up</h1>
+    <% if (errorMessage) { %>
+      <p style="color: red;"><%= errorMessage %></p>
+    <% } %>
+    <form action="/register" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>
