@@ -12,6 +12,7 @@
   <%- include('partials/header', { title: 'Dashboard', user: user }) %>
   <div class="content">
     <h1>Dashboard</h1>
+    <p>Welcome, <%= user.username %>!</p>
     <ul id="url-list">
       <% urls.forEach(url => { %>
         <li id="url-<%= url.shortUrl %>">
