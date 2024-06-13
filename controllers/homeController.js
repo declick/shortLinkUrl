@@ -1,4 +1,6 @@
+// controllers/homeController.js
+
 export const getHome = (req, res) => {
-    res.render('home', { title: 'Home', user: req.user });
-  };
-  
+  res.render('home', { user: req.user, csrfToken: req.csrfToken() });
+};
+

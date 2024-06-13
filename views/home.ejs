@@ -1,16 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home</title>
-  <link rel="stylesheet" href="/style.css" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - URL Shortener</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <%- include('partials/header', { user: user }) %>
-  <div class="content">
-    <h1>Welcome to URL Shortener</h1>
-  </div>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Build stronger digital connections</h1>
+        <p>Use our URL shortener to engage your audience and connect them to the right information. Track everything inside the Connections Platform.</p>
+        <% if (!user) { %>
+          <a href="/signup" class="btn-primary">Get Started for Free</a>
+        <% } else { %>
+          <span class="btn-primary disabled">Get Started for Free</span>
+        <% } %>
+      </div>
+    </section>
+    <section class="shorten-section">
+      <div class="hero">
+        <h2>Great connections start with a click</h2>
+        <p>Sign up for a free account and put App to work</p>
+        <form id="short-link-form" action="/signup" method="GET" class="shorten-form">
+          <input type="url" name="originalUrl" placeholder="Paste a long URL" required>
+          <% if (!user) { %>
+            <button type="submit" class="btn-secondary">Sign up and get your link</button>
+          <% } else { %>
+            <button type="button" class="btn-secondary disabled">Sign up and get your link</button>
+          <% } %>
+        </form>
+        <p>No credit card required. Your free plan includes:</p>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> <strong>Short links</strong></li>
+        </ul>
+      </div>
+    </section>
+  </main>
   <%- include('partials/footer') %>
 </body>
 </html>

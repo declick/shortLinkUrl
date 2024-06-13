@@ -1,8 +1,14 @@
-body {
-  font-family: Arial, sans-serif;
+/* Reset some basic elements */
+body, h1, h2, p, a, button {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
 }
 
 .header {
@@ -101,6 +107,11 @@ li {
   border-radius: 4px;
 }
 
+.fa-check-circle {
+  color: #28a745;
+  margin-right: 10px;
+}
+
 /* Footer styling */
 footer {
   background-color: #333;
@@ -111,6 +122,7 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
 /* Table styling */
 table {
   width: 100%;
@@ -134,4 +146,107 @@ table tr:nth-child(even) {
 
 table tr:hover {
   background-color: #ddd;
+}
+
+/* Home Page */
+.hero {
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-primary.disabled {
+  background: #cccccc;
+  pointer-events: none;
+}
+
+.shorten-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.shorten-form input[type="url"] {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.btn-secondary {
+  background: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #218838;
+}
+
+.btn-secondary.disabled {
+  background: #cccccc;
+  pointer-events: none;
+}
+
+.shorten-section {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.shorten-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.shorten-section p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.shorten-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.shorten-section li {
+  display: flex;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
 }
