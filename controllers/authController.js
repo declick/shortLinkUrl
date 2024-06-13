@@ -33,7 +33,7 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: 'Authentication failed' });
+      return res.render('login', { csrfToken: req.csrfToken(), errorMessage: 'Authentication failed. Please check your username and password.' });
     }
 
     const token = jwt.sign({ userId: user._id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
@@ -41,7 +41,7 @@ export const loginUser = async (req, res) => {
     res.redirect('/dashboard'); // Redirection vers le tableau de bord après une connexion réussie
   } catch (error) {
     console.error('Error logging in user:', error);
-    res.status(500).json({ error: 'Login failed' });
+    res.render('login', { csrfToken: req.csrfToken(), errorMessage: 'Login failed. Please try again.' });
   }
 };
 
