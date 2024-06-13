@@ -9,13 +9,12 @@ import { Server } from 'socket.io';
 import http from 'http';
 import authRoutes from './routes/authRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
-import dashboardRoutes from './routes/dashboardRoutes.js';  // Assurez-vous que ce chemin est correct
+import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import config from './config/config.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
-import authMiddleware from './middleware/authMiddleware.js';
-import { handleJwtError } from './middleware/errorMiddleware.js';
+import authMiddleware, { handleJwtError } from './middleware/authMiddleware.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -31,7 +30,6 @@ mongoose.connect(config.mongodbUri).then(() => {
 });
 
 app.use(cors({
-  origin: 'http://your-frontend-domain.com',
   credentials: true,
 }));
 
@@ -62,7 +60,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', homeRoutes);
 app.use('/', authRoutes);
-app.use('/', dashboardRoutes);  // Assurez-vous que ce chemin est correct
+app.use('/', dashboardRoutes);
 app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
 
@@ -74,4 +72,4 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-export default io; // Exportez io pour l'utiliser ailleurs
+export default io; 

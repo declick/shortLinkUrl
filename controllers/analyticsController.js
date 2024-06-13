@@ -10,7 +10,7 @@ export const getAnalytics = async (req, res) => {
       return res.status(404).json({ error: 'URL not found or not authorized' });
     }
 
-    res.render('analytics', { url });
+    res.render('analytics', { url, user: req.user, csrfToken: req.csrfToken() });
   } catch (error) {
     console.error('Error fetching analytics:', error);
     res.status(500).json({ error: 'Error fetching analytics' });

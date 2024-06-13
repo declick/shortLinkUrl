@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Analytics</title>
   <link rel="stylesheet" href="/style.css" type="text/css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
   <%- include('partials/header', { title: 'Analytics', user: user }) %>
@@ -13,6 +15,7 @@
     <p>Original URL: <a href="<%= url.originalUrl %>"><%= url.originalUrl %></a></p>
     <p>Date Created: <%= new Date(url.createdAt).toLocaleString() %></p>
     <h2>Click Statistics</h2>
+    <p><strong>Clicks:</strong> <span id="clicks-<%= url.shortUrl %>"><%= url.clicks.length %></span></p>
     <table>
       <thead>
         <tr>
@@ -32,6 +35,13 @@
       </tbody>
     </table>
   </div>
+  <script>
+    const socket = io();
+
+    socket.on('clickUpdate', function(data) {
+      document.getElementById('clicks-' + data.shortUrl).innerText = data.clickCount;
+    });
+  </script>
   <%- include('partials/footer') %>
 </body>
 </html>

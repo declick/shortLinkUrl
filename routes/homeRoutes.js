@@ -3,6 +3,8 @@ import { getHome } from '../controllers/homeController.js';
 
 const router = express.Router();
 
-router.get('/', getHome);
+router.get('/', (req, res) => {
+  res.render('home', { user: res.locals.user });
+});
 
 export default router;

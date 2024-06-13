@@ -8,4 +8,11 @@ const authMiddleware = jwt({
   requestProperty: 'user',
 });
 
+export const handleJwtError = (err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res.redirect('/');
+  }
+  next(err);
+};
+
 export default authMiddleware;

@@ -20,7 +20,6 @@
           </a> - <%= url.originalUrl %>
           <ul>
             <li><strong>Date Created:</strong> <%= new Date(url.createdAt).toLocaleString() %></li>
-            <li><strong>Clicks:</strong> <span id="clicks-<%= url.shortUrl %>"><%= url.clicks.length %></span></li>
             <li><a href="/analytics/<%= url.shortUrl %>">View Analytics</a></li>
             <li><button onclick="confirmDelete('<%= url.shortUrl %>')">Delete</button></li>
           </ul>
@@ -33,10 +32,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     const socket = io();
-
-    socket.on('clickUpdate', function(data) {
-      document.getElementById('clicks-' + data.shortUrl).innerText = data.clickCount;
-    });
 
     socket.on('urlDeleted', function(data) {
       const urlElement = document.getElementById('url-' + data.shortUrl);

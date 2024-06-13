@@ -19,7 +19,7 @@ export const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.redirect('/login'); // Redirection vers la page de connexion après une inscription réussie
+    res.redirect('/login'); 
   } catch (error) {
     console.error('Error registering user:', error);
     res.render('signup', { csrfToken: req.csrfToken(), errorMessage: 'Registration failed. Please try again.' });
