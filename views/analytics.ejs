@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Analytics</title>
+  <title>Analytics for <%= url.shortUrl %></title>
   <link rel="stylesheet" href="/style.css" type="text/css">
   <meta name="csrf-token" content="<%= csrfToken %>">
-  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
   <%- include('partials/header', { title: 'Analytics', user: user }) %>
@@ -14,34 +13,10 @@
     <h1>Analytics for <%= url.shortUrl %></h1>
     <p>Original URL: <a href="<%= url.originalUrl %>"><%= url.originalUrl %></a></p>
     <p>Date Created: <%= new Date(url.createdAt).toLocaleString() %></p>
+    
     <h2>Click Statistics</h2>
-    <p><strong>Clicks:</strong> <span id="clicks-<%= url.shortUrl %>"><%= url.clicks.length %></span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>IP Address</th>
-          <th>Referer</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% url.clicks.forEach(click => { %>
-          <tr>
-            <td><%= new Date(click.timestamp).toLocaleString() %></td>
-            <td><%= click.ip %></td>
-            <td><%= click.referer %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
+    <p><strong>Clicks:</strong> <%= clicksCount %></p>
   </div>
-  <script>
-    const socket = io();
-
-    socket.on('clickUpdate', function(data) {
-      document.getElementById('clicks-' + data.shortUrl).innerText = data.clickCount;
-    });
-  </script>
   <%- include('partials/footer') %>
 </body>
 </html>

@@ -4,13 +4,20 @@ export const getAnalytics = async (req, res) => {
   const { shortUrl } = req.params;
 
   try {
-    const url = await Url.findOne({ shortUrl, userId: req.user.userId });
+    const url = await Url.findOne({ shortUrl });
 
     if (!url) {
-      return res.status(404).json({ error: 'URL not found or not authorized' });
+      return res.status(404).send('URL not found');
     }
 
-    res.render('analytics', { url, user: req.user, csrfToken: req.csrfToken() });
+    const clicks = url.clicks || [];
+
+    res.render('analytics', {
+      url,
+      csrfToken: req.csrfToken(),
+      user: req.user,
+      clicksCount: clicks.length
+    });
   } catch (error) {
     console.error('Error fetching analytics:', error);
     res.status(500).json({ error: 'Error fetching analytics' });

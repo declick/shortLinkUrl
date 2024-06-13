@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(csrfProtection); 
+app.use(csrfProtection); // Middleware CSRF après cookieParser
 
 // Middleware to pass authenticated user to views
 app.use((req, res, next) => {
@@ -72,4 +72,11 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-export default io; 
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+export default io;
