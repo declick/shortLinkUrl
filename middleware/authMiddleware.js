@@ -1,8 +1,11 @@
 import { expressjwt as jwt } from 'express-jwt';
-import config from '../config/config.js';
+import dotenv from 'dotenv';
+
+// Charger les variables d'environnement
+dotenv.config();
 
 const authMiddleware = jwt({
-  secret: config.jwtSecret,
+  secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
   getToken: (req) => req.cookies.token,
   requestProperty: 'user',

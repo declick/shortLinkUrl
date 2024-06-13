@@ -7,14 +7,17 @@ import { fileURLToPath } from 'url';
 import jsonwebtoken from 'jsonwebtoken';
 import { Server } from 'socket.io';
 import http from 'http';
+import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
-import config from './config/config.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
 import authMiddleware, { handleJwtError } from './middleware/authMiddleware.js';
+
+// Charger les variables d'environnement
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -23,7 +26,7 @@ const io = new Server(server);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-mongoose.connect(config.mongodbUri).then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log('Connected to MongoDB');
 }).catch((err) => {
   console.error('MongoDB connection error:', err);
@@ -37,13 +40,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(csrfProtection); // Middleware CSRF après cookieParser
+app.use(csrfProtection); 
 
 // Middleware to pass authenticated user to views
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
-    jsonwebtoken.verify(token, config.jwtSecret, (err, decoded) => {
+    jsonwebtoken.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         res.locals.user = null;
       } else {
@@ -67,16 +70,9 @@ app.use('/', analyticsRoutes);
 // Error handling middleware
 app.use(handleJwtError);
 
-const PORT = config.port;
+const PORT = process.env.PORT;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
 });
 
 export default io;
