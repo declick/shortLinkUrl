@@ -6,6 +6,16 @@
   <title>Analytics for <%= url.shortUrl %></title>
   <link rel="stylesheet" href="/style.css" type="text/css">
   <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on('clickUpdate', function(data) {
+      if (data.shortUrl === '<%= url.shortUrl %>') {
+        document.getElementById('clicksCount').innerText = data.clickCount;
+      }
+    });
+  </script>
 </head>
 <body>
   <%- include('partials/header', { title: 'Analytics', user: user }) %>
@@ -15,7 +25,7 @@
     <p>Date Created: <%= new Date(url.createdAt).toLocaleString() %></p>
     
     <h2>Click Statistics</h2>
-    <p><strong>Clicks:</strong> <%= clicksCount %></p>
+    <p><strong>Clicks:</strong> <span id="clicksCount"><%= clicksCount %></span></p>
   </div>
   <%- include('partials/footer') %>
 </body>

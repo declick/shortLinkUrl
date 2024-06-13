@@ -75,4 +75,13 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+// Socket.io handling
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
 export default io;
