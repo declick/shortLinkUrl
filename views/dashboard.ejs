@@ -9,7 +9,7 @@
   <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 <body>
-  <%- include('partials/header', { title: 'Dashboard', user: user }) %>
+  <%- include('partials/header', { title: 'Dashboard', user: user,isAdmin: isAdmin }) %>
   <div class="content">
     <h1>Dashboard</h1>
     <p>Welcome, <%= user.username %>!</p>

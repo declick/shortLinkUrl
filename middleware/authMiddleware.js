@@ -1,4 +1,5 @@
 // middleware/authMiddleware.js
+
 import { expressjwt as jwt } from 'express-jwt';
 import dotenv from 'dotenv';
 import User from '../models/User.js';
@@ -20,18 +21,22 @@ const attachUser = async (req, res, next) => {
       if (user) {
         req.user = user;
         res.locals.user = user;
+        res.locals.isAdmin = user.role && user.role.name === 'admin';
       } else {
         req.user = null;
         res.locals.user = null;
+        res.locals.isAdmin = false;
       }
     } catch (error) {
-      console.error('Error attaching user:', error);
+      console.error('Error attaching user to request:', error);
       req.user = null;
       res.locals.user = null;
+      res.locals.isAdmin = false;
     }
   } else {
     req.user = null;
     res.locals.user = null;
+    res.locals.isAdmin = false;
   }
   next();
 };

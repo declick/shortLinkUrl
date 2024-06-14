@@ -1,4 +1,5 @@
 // app.js
+
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -15,7 +16,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
+import adminRoutes from './routes/adminRoutes.js'; // Importer les routes d'administration
 import csrfProtection from './middleware/csrfMiddleware.js';
 import authMiddleware, { attachUser, handleJwtError } from './middleware/authMiddleware.js';
 
@@ -70,7 +71,7 @@ app.use('/', dashboardRoutes);
 app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
 app.use('/', profileRoutes);
-app.use('/', adminRoutes);
+app.use('/', adminRoutes); // Utiliser les routes d'administration
 
 app.use(handleJwtError);
 
