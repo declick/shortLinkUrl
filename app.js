@@ -13,6 +13,7 @@ import urlRoutes from './routes/urlRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
 import authMiddleware, { handleJwtError } from './middleware/authMiddleware.js';
 
@@ -66,6 +67,7 @@ app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
+app.use('/', profileRoutes);
 
 // Error handling middleware
 app.use(handleJwtError);
@@ -73,15 +75,6 @@ app.use(handleJwtError);
 const PORT = process.env.PORT;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Socket.io handling
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
 });
 
 export default io;

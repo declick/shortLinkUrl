@@ -21,8 +21,8 @@
           </a> - <%= url.originalUrl %>
           <ul>
             <li><strong>Date Created:</strong> <%= new Date(url.createdAt).toLocaleString() %></li>
-            <li><a href="/analytics/<%= url.shortUrl %>">View Analytics</a></li>
-            <li><button onclick="confirmDelete('<%= url.shortUrl %>')">Delete</button></li>
+            <li><a class="btn-primary" href="/analytics/<%= url.shortUrl %>">View Analytics</a></li>
+            <li><button class="btn-danger" onclick="confirmDelete('<%= url.shortUrl %>')">Delete</button></li>
           </ul>
         </li>
       <% }) %>
@@ -32,15 +32,19 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    window.addEventListener('popstate', (event) => {
+      window.location.reload();
+    });
+  
     const socket = io();
-
+  
     socket.on('urlDeleted', function(data) {
       const urlElement = document.getElementById('url-' + data.shortUrl);
       if (urlElement) {
         urlElement.remove();
       }
     });
-
+  
     function confirmDelete(shortUrl) {
       Swal.fire({
         title: 'Are you sure?',
@@ -56,10 +60,10 @@
         }
       });
     }
-
+  
     function deleteUrl(shortUrl) {
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+  
       fetch('/dashboard/' + shortUrl, {
         method: 'DELETE',
         headers: {
@@ -84,5 +88,6 @@
       });
     }
   </script>
+  
 </body>
 </html>
