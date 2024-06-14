@@ -34,3 +34,18 @@ export const updateUserRole = async (req, res) => {
     res.status(500).json({ error: 'Error updating user role' });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.redirect('/admin');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Error deleting user' });
+  }
+};
