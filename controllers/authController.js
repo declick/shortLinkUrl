@@ -1,4 +1,7 @@
+// controllers/authController.js
+
 import User from '../models/User.js';
+import Role from '../models/Role.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config/config.js';
@@ -13,13 +16,21 @@ export const registerUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Trouvez le rôle avec le nom "user"
+    const userRole = await Role.findOne({ name: 'user' });
+    if (!userRole) {
+      return res.render('signup', { csrfToken: req.csrfToken(), errorMessage: 'Default role not found. Please try again.' });
+    }
+
     const newUser = new User({
       username,
       password: hashedPassword,
+      role: userRole._id, // Assignez le rôle
     });
 
     await newUser.save();
-    res.redirect('/login'); 
+    res.redirect('/login');
   } catch (error) {
     console.error('Error registering user:', error);
     res.render('signup', { csrfToken: req.csrfToken(), errorMessage: 'Registration failed. Please try again.' });
@@ -30,15 +41,15 @@ export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate('role'); // Populate role
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.render('login', { csrfToken: req.csrfToken(), errorMessage: 'Authentication failed. Please check your username and password.' });
     }
 
-    const token = jwt.sign({ userId: user._id, username: user.username }, config.jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, username: user.username, role: user.role.name }, config.jwtSecret, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/dashboard'); // Redirection vers le tableau de bord après une connexion réussie
+    res.redirect('/dashboard');
   } catch (error) {
     console.error('Error logging in user:', error);
     res.render('login', { csrfToken: req.csrfToken(), errorMessage: 'Login failed. Please try again.' });
@@ -47,5 +58,5 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = (req, res) => {
   res.clearCookie('token');
-  res.redirect('/'); 
+  res.redirect('/');
 };
