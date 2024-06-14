@@ -2,54 +2,48 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 
 export const getProfile = (req, res) => {
-  res.render('profile', { user: req.user, csrfToken: req.csrfToken(), errorMessage: null });
+  res.render('profile', { user: req.user, csrfToken: req.csrfToken(), errorMessage: '' });
 };
 
 export const updateProfile = async (req, res) => {
-  const { username, currentPassword, newPassword, confirmNewPassword } = req.body;
+  const { username, password, currentPassword, confirmPassword } = req.body;
 
   try {
     const user = await User.findById(req.user.userId);
 
-    // Vérifier si le mot de passe actuel est correct
-    if (currentPassword && !(await bcrypt.compare(currentPassword, user.password))) {
+    if (password && (password !== confirmPassword)) {
       return res.render('profile', {
         user: req.user,
         csrfToken: req.csrfToken(),
-        errorMessage: 'Current password is incorrect'
+        errorMessage: 'Passwords do not match.'
       });
     }
 
-    // Vérifier si tous les champs de mot de passe sont remplis
-    if (currentPassword && (!newPassword || !confirmNewPassword)) {
+    if (password && !(await bcrypt.compare(currentPassword, user.password))) {
       return res.render('profile', {
         user: req.user,
         csrfToken: req.csrfToken(),
-        errorMessage: 'Please fill in all password fields'
-      });
-    }
-
-    // Vérifier si le nouveau mot de passe et la confirmation correspondent
-    if (newPassword && newPassword !== confirmNewPassword) {
-      return res.render('profile', {
-        user: req.user,
-        csrfToken: req.csrfToken(),
-        errorMessage: 'New passwords do not match'
+        errorMessage: 'Current password is incorrect.'
       });
     }
 
     user.username = username;
 
-    if (newPassword) {
-      user.password = await bcrypt.hash(newPassword, 10);
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
     }
 
     await user.save();
+
     res.clearCookie('token');
     res.redirect('/');
   } catch (error) {
     console.error('Error updating profile:', error);
-    res.status(500).json({ error: 'Error updating profile' });
+    res.render('profile', {
+      user: req.user,
+      csrfToken: req.csrfToken(),
+      errorMessage: 'Error updating profile. Please try again.'
+    });
   }
 };
 

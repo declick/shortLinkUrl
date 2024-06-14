@@ -1,3 +1,4 @@
+// app.js
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -14,10 +15,10 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
-import authMiddleware, { handleJwtError } from './middleware/authMiddleware.js';
+import authMiddleware, { attachUser, handleJwtError } from './middleware/authMiddleware.js';
 
-// Charger les variables d'environnement
 dotenv.config();
 
 const app = express();
@@ -41,9 +42,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(csrfProtection); 
+app.use(csrfProtection);
 
-// Middleware to pass authenticated user to views
+app.use(authMiddleware);
+app.use(attachUser);
+
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
@@ -61,15 +64,14 @@ app.use((req, res, next) => {
   }
 });
 
-// Routes
 app.use('/', homeRoutes);
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
 app.use('/', profileRoutes);
+app.use('/', adminRoutes);
 
-// Error handling middleware
 app.use(handleJwtError);
 
 const PORT = process.env.PORT;

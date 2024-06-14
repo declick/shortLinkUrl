@@ -19,12 +19,12 @@
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" value="<%= user.username %>" required>
-      <label for="current-password">Current Password:</label>
-      <input type="password" id="current-password" name="currentPassword" placeholder="Enter current password">
-      <label for="new-password">New Password:</label>
-      <input type="password" id="new-password" name="newPassword" placeholder="Enter new password">
-      <label for="confirm-new-password">Confirm New Password:</label>
-      <input type="password" id="confirm-new-password" name="confirmNewPassword" placeholder="Confirm new password">
+      <label for="currentPassword">Current Password:</label>
+      <input type="password" id="currentPassword" name="currentPassword">
+      <label for="password">New Password:</label>
+      <input type="password" id="password" name="password" placeholder="Leave blank if not changing">
+      <label for="confirmPassword">Confirm New Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Leave blank if not changing">
       <div class="form-buttons">
         <button type="submit" class="btn-primary">Update Profile</button>
         <button type="button" id="delete-account-btn" class="btn-danger">Delete Account</button>
