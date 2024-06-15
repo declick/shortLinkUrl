@@ -18,6 +18,7 @@
       <thead>
         <tr>
           <th>Username</th>
+          <th>createdAt</th>
           <th>Role</th>
           <th>Change Role</th>
           <th>Actions</th>
@@ -27,6 +28,7 @@
         <% users.forEach(user => { %>
           <tr id="user-<%= user._id %>">
             <td><%= user.username %></td>
+            <td><%= new Date(user.createdAt).toLocaleString() %></td>
             <td><%= user.role.name %></td>
             <td>
               <form action="/admin/update-role" method="POST">

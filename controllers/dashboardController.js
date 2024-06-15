@@ -8,7 +8,7 @@ export const getDashboard = async (req, res) => {
   const skip = (page - 1) * limit;
 
   try {
-    const urls = await Url.find({ userId }).skip(skip).limit(limit);
+    const urls = await Url.find({ userId }).skip(skip).limit(limit).sort({ createdAt: 'desc' });
     const totalUrls = await Url.countDocuments({ userId });
     const totalPages = Math.ceil(totalUrls / limit);
 

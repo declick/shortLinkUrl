@@ -4,11 +4,11 @@ import ActivityLog from '../models/ActivityLog.js';
 
 export const getAdminDashboard = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = 2;
+  const limit = 3;
   const skip = (page - 1) * limit;
 
   try {
-    const users = await User.find().populate('role').skip(skip).limit(limit);
+    const users = await User.find().populate('role').sort({ createdAt: 'desc' }).skip(skip).limit(limit);
     const totalUsers = await User.countDocuments();
     const totalPages = Math.ceil(totalUsers / limit);
     const roles = await Role.find();
@@ -26,6 +26,7 @@ export const getAdminDashboard = async (req, res) => {
     res.status(500).json({ error: 'Error fetching admin dashboard data' });
   }
 };
+
 
 export const updateUserRole = async (req, res) => {
   const { userId, roleId } = req.body;
