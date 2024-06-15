@@ -16,6 +16,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
+import activityLogRoutes from './routes/activityLogRoutes.js';
 import adminRoutes from './routes/adminRoutes.js'; 
 import csrfProtection from './middleware/csrfMiddleware.js';
 import authMiddleware, { attachUser, handleJwtError } from './middleware/authMiddleware.js';
@@ -36,6 +37,7 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 });
 
 app.use(cors({
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 
@@ -72,6 +74,7 @@ app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
 app.use('/', profileRoutes);
 app.use('/', adminRoutes); 
+app.use('/', activityLogRoutes);
 
 app.use(handleJwtError);
 

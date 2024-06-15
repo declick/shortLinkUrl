@@ -1,9 +1,12 @@
+// controllers/adminController.js
+
 import User from '../models/User.js';
 import Role from '../models/Role.js';
+import ActivityLog from '../models/ActivityLog.js'; // Import ActivityLog model
 
 export const getAdminDashboard = async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // page par défaut à 1
-  const limit = 2; // nombre d'éléments par page
+  const page = parseInt(req.query.page) || 1;
+  const limit = 2;
   const skip = (page - 1) * limit;
 
   try {
@@ -42,6 +45,14 @@ export const updateUserRole = async (req, res) => {
 
     user.role = role;
     await user.save();
+
+    // Log the activity
+    const activityLog = new ActivityLog({
+      user: req.user._id,
+      action: `Updated role for user ${user.username} to ${role.name}`
+    });
+    await activityLog.save();
+
     res.redirect('/admin');
   } catch (error) {
     console.error('Error updating user role:', error);
@@ -57,6 +68,14 @@ export const deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+
+    // Log the activity
+    const activityLog = new ActivityLog({
+      user: req.user._id,
+      action: `Deleted user ${user.username}`
+    });
+    await activityLog.save();
+
     res.redirect('/admin');
   } catch (error) {
     console.error('Error deleting user:', error);

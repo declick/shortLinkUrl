@@ -26,7 +26,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
-      role: userRole._id, // Assignez le rôle
+      role: userRole._id, 
     });
 
     await newUser.save();
