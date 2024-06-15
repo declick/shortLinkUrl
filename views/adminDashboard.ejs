@@ -5,14 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="/style.css">
-  <script>
-    function confirmDelete(userId) {
-      if (confirm('Are you sure you want to delete this user?')) {
-        const form = document.getElementById('delete-form-' + userId);
-        form.submit();
-      }
-    }
-  </script>
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <%- include('partials/header', { isAdmin: isAdmin }) %>
@@ -28,7 +23,7 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="user-list">
         <% users.forEach(user => { %>
           <tr id="user-<%= user._id %>">
             <td><%= user.username %></td>
@@ -46,11 +41,7 @@
               </form>
             </td>
             <td>
-              <form id="delete-form-<%= user._id %>" action="/admin/delete-user" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="hidden" name="userId" value="<%= user._id %>">
-                <button type="button" onclick="confirmDelete('<%= user._id %>')" class="btn-danger">Delete</button>
-              </form>
+              <button type="button" onclick="confirmDelete('<%= user._id %>')" class="btn-danger">Delete</button>
             </td>
           </tr>
         <% }) %>
@@ -70,5 +61,77 @@
     </div>
   </div>
   <%- include('partials/footer') %>
+
+  <script>
+    function confirmDelete(userId) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteUser(userId);
+    }
+  });
+}
+
+function deleteUser(userId) {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  fetch('/admin/delete-user', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
+    },
+    body: JSON.stringify({ userId })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      Swal.fire(
+        'Deleted!',
+        'User has been deleted.',
+        'success'
+      ).then(() => {
+        const userElement = document.getElementById('user-' + userId);
+        if (userElement) {
+          userElement.remove();
+        }
+
+        // Check if the list is empty after removal
+        const userList = document.getElementById('user-list');
+        if (userList.children.length === 0) {
+          const currentPage = parseInt('<%= currentPage %>', 10);
+          if (currentPage > 1) {
+            window.location.href = '?page=' + (currentPage - 1);
+          } else {
+            window.location.href = '?page=1';
+          }
+        } else {
+              window.location.reload();
+            }
+      });
+    } else {
+      Swal.fire(
+        'Error!',
+        data.error || 'There was an error deleting the user.',
+        'error'
+      );
+    }
+  }).catch(error => {
+    Swal.fire(
+      'Error!',
+      'There was an error deleting the user.',
+      'error'
+    );
+  });
+}
+
+  </script>
 </body>
 </html>

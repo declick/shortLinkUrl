@@ -1,8 +1,6 @@
-// controllers/adminController.js
-
 import User from '../models/User.js';
 import Role from '../models/Role.js';
-import ActivityLog from '../models/ActivityLog.js'; // Import ActivityLog model
+import ActivityLog from '../models/ActivityLog.js';
 
 export const getAdminDashboard = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -64,10 +62,14 @@ export const deleteUser = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    const user = await User.findByIdAndDelete(userId);
+    console.log('Received request to delete user with ID:', userId); // Log received userId
+    const user = await User.findById(userId);
     if (!user) {
+      console.log('User not found with ID:', userId); // Log if user not found
       return res.status(404).json({ error: 'User not found' });
     }
+
+    await User.findByIdAndDelete(userId);
 
     // Log the activity
     const activityLog = new ActivityLog({
@@ -76,9 +78,10 @@ export const deleteUser = async (req, res) => {
     });
     await activityLog.save();
 
-    res.redirect('/admin');
+    res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ error: 'Error deleting user' });
   }
 };
+
