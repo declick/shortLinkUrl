@@ -2,13 +2,24 @@ import Url from '../models/Url.js';
 import io from '../app.js';
 
 export const getDashboard = async (req, res) => {
+  const userId = req.user.userId;
+  const page = parseInt(req.query.page) || 1; // page par défaut à 1
+  const limit = 4; // nombre d'éléments par page
+  const skip = (page - 1) * limit;
+
   try {
-    const urls = await Url.find({ userId: req.user.userId });
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
-    res.set('Surrogate-Control', 'no-store');
-    res.render('dashboard', { urls, csrfToken: req.csrfToken(), req });
+    const urls = await Url.find({ userId }).skip(skip).limit(limit);
+    const totalUrls = await Url.countDocuments({ userId });
+    const totalPages = Math.ceil(totalUrls / limit);
+
+    res.render('dashboard', {
+      urls,
+      currentPage: page,
+      totalPages,
+      csrfToken: req.csrfToken(),
+      user: req.user,
+      req // Ajoutez l'objet req ici
+    });
   } catch (error) {
     console.error('Error fetching URLs:', error);
     res.status(500).json({ error: 'Error fetching URLs' });
