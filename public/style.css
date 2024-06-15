@@ -326,3 +326,70 @@ table tr:hover {
 .btn-pagination:hover {
   background-color: #0056b3;
 }
+.pricing-table {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pricing-plan {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  flex: 1;
+  max-width: 30%;
+  min-width: 280px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.pricing-plan:hover {
+  transform: translateY(-10px);
+}
+
+.pricing-plan h2 {
+  color: #007BFF;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.pricing-plan p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.pricing-plan ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.pricing-plan ul li {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.btn-disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .pricing-plan {
+    flex: 1 1 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-plan {
+    flex: 1 1 100%;
+  }
+}

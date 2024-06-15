@@ -18,6 +18,7 @@ import analyticsRoutes from './routes/analyticsRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import activityLogRoutes from './routes/activityLogRoutes.js';
 import adminRoutes from './routes/adminRoutes.js'; 
+import pricingRoute from './routes/pricingRoute.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
 import authMiddleware, { attachUser, handleJwtError } from './middleware/authMiddleware.js';
 
@@ -76,6 +77,7 @@ app.use('/', analyticsRoutes);
 app.use('/', profileRoutes);
 app.use('/', adminRoutes); 
 app.use('/', activityLogRoutes);
+app.use('/', pricingRoute);
 
 app.use(handleJwtError);
 
