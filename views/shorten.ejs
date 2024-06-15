@@ -7,15 +7,22 @@
   <link rel="stylesheet" href="/style.css" type="text/css">
 </head>
 <body>
-  <%- include('partials/header', { title: 'Create Short URL', user: user,isAdmin: isAdmin }) %>
+  <%- include('partials/header', { title: 'Create Short URL', user: user, isAdmin: isAdmin }) %>
   <div class="content">
     <h1>Create a Short URL</h1>
-    <form action="/shorten" method="POST">
+    <form id="shorten-form" action="/shorten" method="POST">
       <input type="text" name="originalUrl" placeholder="Enter the original URL" required>
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <button type="submit">Shorten URL</button>
+      <button type="submit" id="submit-button">Shorten URL</button>
     </form>
   </div>
   <%- include('partials/footer') %>
+  <script>
+    document.getElementById('shorten-form').addEventListener('submit', function() {
+      var submitButton = document.getElementById('submit-button');
+      submitButton.disabled = true;
+      submitButton.innerText = 'Creating...';
+    });
+  </script>
 </body>
 </html>
