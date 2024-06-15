@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard</title>
   <link rel="stylesheet" href="/style.css" type="text/css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 <body>
   <%- include('partials/header', { title: 'Dashboard', user: user }) %>
@@ -43,10 +44,6 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    window.addEventListener('popstate', (event) => {
-      window.location.reload();
-    });
-
     const socket = io();
 
     socket.on('urlDeleted', function(data) {
@@ -88,7 +85,21 @@
             'Deleted!',
             'Your short URL has been deleted.',
             'success'
-          );
+          ).then(() => {
+            // Reload the page after deletion
+            const urlList = document.getElementById('url-list');
+            if (urlList.children.length === 0) {
+              // If there are no more URLs on the current page, reload to the previous page or the first page
+              const currentPage = parseInt('<%= currentPage %>', 10);
+              if (currentPage > 1) {
+                window.location.href = '?page=' + (currentPage - 1);
+              } else {
+                window.location.href = '?page=1';
+              }
+            } else {
+              window.location.reload();
+            }
+          });
         } else {
           Swal.fire(
             'Error!',

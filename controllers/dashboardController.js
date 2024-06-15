@@ -4,7 +4,7 @@ import io from '../app.js';
 export const getDashboard = async (req, res) => {
   const userId = req.user.userId;
   const page = parseInt(req.query.page) || 1; // page par défaut à 1
-  const limit = 4; // nombre d'éléments par page
+  const limit = 4; // 4 URLs par page
   const skip = (page - 1) * limit;
 
   try {
@@ -18,14 +18,13 @@ export const getDashboard = async (req, res) => {
       totalPages,
       csrfToken: req.csrfToken(),
       user: req.user,
-      req // Ajoutez l'objet req ici
+      req 
     });
   } catch (error) {
     console.error('Error fetching URLs:', error);
     res.status(500).json({ error: 'Error fetching URLs' });
   }
 };
-
 
 export const deleteShortUrl = async (req, res) => {
   const { shortUrl } = req.params;
