@@ -1,5 +1,3 @@
-// app.js
-
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -69,15 +67,18 @@ app.use((req, res, next) => {
   }
 });
 
+// Définir les routes spécifiques
 app.use('/', homeRoutes);
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
-app.use('/', urlRoutes);
 app.use('/', analyticsRoutes);
 app.use('/', profileRoutes);
-app.use('/', adminRoutes); 
+app.use('/', adminRoutes);
 app.use('/', activityLogRoutes);
 app.use('/', pricingRoute);
+
+// Définir la route pour les short URLs à la fin
+app.use('/', urlRoutes);
 
 app.use(handleJwtError);
 

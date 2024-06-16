@@ -16,8 +16,8 @@
     <ul id="url-list">
       <% urls.forEach(url => { %>
         <li id="url-<%= url.shortUrl %>">
-          <a href="<%= req.protocol %>://<%= req.get('host') %>/u/<%= url.shortUrl %>">
-            <%= req.protocol %>://<%= req.get('host') %>/u/<%= url.shortUrl %>
+          <a href="<%= req.protocol %>://<%= req.get('host') %>/<%= url.shortUrl %>">
+            <%= req.protocol %>://<%= req.get('host') %>/<%= url.shortUrl %>
           </a> - <%= url.originalUrl %>
           <ul>
             <li><strong>Date Created:</strong> <%= new Date(url.createdAt).toLocaleString() %></li>

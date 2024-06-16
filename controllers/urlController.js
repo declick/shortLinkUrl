@@ -16,8 +16,7 @@ export const createShortUrl = async (req, res) => {
     await newUrl.save();
     res.render('shortened', { shortUrl, csrfToken: req.csrfToken(), req });
   } catch (error) {
-    console.error('Error creating short URL:', error);
-    res.status(500).json({ error: 'Error creating short URL' });
+    console.error('Error creating short URL', error);
   }
 };
 

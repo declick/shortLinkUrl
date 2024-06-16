@@ -10,7 +10,7 @@
   <%- include('partials/header', { title: 'Shortened URL', user: user,isAdmin: isAdmin }) %>
   <div class="content">
     <h1>Shortened URL</h1>
-    <p>Your shortened URL is: <a href="/u/<%= shortUrl %>"><%= req.protocol %>://<%= req.get('host') %>/u/<%= shortUrl %></a></p>
+    <p>Your shortened URL is: <a href="/<%= shortUrl %>"><%= req.protocol %>://<%= req.get('host') %>/<%= shortUrl %></a></p>
   </div>
   <%- include('partials/footer') %>
 </body>
