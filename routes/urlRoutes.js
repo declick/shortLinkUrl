@@ -10,8 +10,6 @@ router.get('/shorten', authMiddleware, csrfProtection, (req, res) => {
 });
 
 router.post('/shorten', authMiddleware, csrfProtection, createShortUrl);
-
-// Modifier la route pour supprimer /u/
 router.get('/:shortUrl', redirectToOriginalUrl);
 
 export default router;

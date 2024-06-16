@@ -10,15 +10,32 @@
   <script>
     const socket = io();
 
+    const updateStatistics = (stats) => {
+      const clicksCountElement = document.getElementById('clicksCount');
+      const countryListElement = document.getElementById('countryList');
+
+      clicksCountElement.innerText = stats.totalClicks;
+      countryListElement.innerHTML = '';
+
+      for (const country in stats.countryPercentages) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <img src="/flags/${country.toLowerCase()}.png" alt="${country} flag" style="width: 20px; height: 15px;">
+          ${country}: ${stats.countryPercentages[country]}%
+        `;
+        countryListElement.appendChild(li);
+      }
+    };
+
     socket.on('clickUpdate', function(data) {
       if (data.shortUrl === '<%= url.shortUrl %>') {
-        document.getElementById('clicksCount').innerText = data.clickCount;
+        updateStatistics(data.stats);
       }
     });
   </script>
 </head>
 <body>
-  <%- include('partials/header', { title: 'Analytics', user: user,isAdmin: isAdmin }) %>
+  <%- include('partials/header', { title: 'Analytics', user: user }) %>
   <div class="content">
     <h1>Analytics for <%= url.shortUrl %></h1>
     <p>Original URL: <a href="<%= url.originalUrl %>"><%= url.originalUrl %></a></p>
@@ -26,6 +43,16 @@
     
     <h2>Click Statistics</h2>
     <p><strong>Clicks:</strong> <span id="clicksCount"><%= clicksCount %></span></p>
+    
+    <h2>Click Distribution by Country</h2>
+    <ul id="countryList">
+      <% for (const country in countryPercentages) { %>
+        <li>
+          <img src="/flags/<%= country.toLowerCase() %>.png" alt="<%= country %> flag" style="width: 20px; height: 15px;">
+          <%= country %>: <%= countryPercentages[country] %>%
+        </li>
+      <% } %>
+    </ul>
   </div>
   <%- include('partials/footer') %>
 </body>
