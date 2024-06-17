@@ -1,3 +1,5 @@
+
+
 import { expressjwt as jwt } from 'express-jwt';
 import dotenv from 'dotenv';
 import User from '../models/User.js';
@@ -9,9 +11,7 @@ const authMiddleware = jwt({
   algorithms: ['HS256'],
   getToken: (req) => req.cookies.token,
   requestProperty: 'user',
-  credentialsRequired: true,
-}).unless({
-  path: ['/', '/login', '/signup', '/register','/pricing'] 
+  credentialsRequired: false, 
 });
 
 const attachUser = async (req, res, next) => {
@@ -41,6 +41,4 @@ const attachUser = async (req, res, next) => {
   next();
 };
 
-
-export { attachUser };
-export default authMiddleware;
+export { attachUser, authMiddleware };

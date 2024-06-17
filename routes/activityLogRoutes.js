@@ -1,7 +1,7 @@
 // routes/activityLogRoutes.js
 
 import express from 'express';
-import authMiddleware, { attachUser } from '../middleware/authMiddleware.js';
+import {authMiddleware,  attachUser } from '../middleware/authMiddleware.js';
 import adminMiddleware from '../middleware/adminMiddleware.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
 import { getActivityLog } from '../controllers/activityLogController.js';

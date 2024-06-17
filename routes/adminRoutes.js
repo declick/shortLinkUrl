@@ -1,6 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import authMiddleware, { attachUser } from '../middleware/authMiddleware.js';
 import adminMiddleware from '../middleware/adminMiddleware.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
 import { getAdminDashboard, updateUserRole, deleteUser } from '../controllers/adminController.js';

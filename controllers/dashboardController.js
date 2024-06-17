@@ -3,7 +3,7 @@ import io from '../app.js';
 
 export const getDashboard = async (req, res) => {
   if (!req.user) {
-    return res.redirect('/');
+    return res.redirect('/'); 
   }
   const userId = req.user.userId;
   const page = parseInt(req.query.page) || 1; // page par défaut à 1

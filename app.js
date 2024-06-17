@@ -19,7 +19,7 @@ import activityLogRoutes from './routes/activityLogRoutes.js';
 import adminRoutes from './routes/adminRoutes.js'; 
 import pricingRoute from './routes/pricingRoute.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
-import authMiddleware, { attachUser  } from './middleware/authMiddleware.js';
+import {authMiddleware,  attachUser  } from './middleware/authMiddleware.js';
 import handleJwtError from './middleware/errorMiddleware.js';
 
 
