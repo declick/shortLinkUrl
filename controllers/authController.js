@@ -1,5 +1,3 @@
-// controllers/authController.js
-
 import User from '../models/User.js';
 import Role from '../models/Role.js';
 import bcrypt from 'bcrypt';
@@ -17,7 +15,6 @@ export const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Trouvez le rôle avec le nom "user"
     const userRole = await Role.findOne({ name: 'user' });
     if (!userRole) {
       return res.render('signup', { csrfToken: req.csrfToken(), errorMessage: 'Default role not found. Please try again.' });
@@ -26,7 +23,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
-      role: userRole._id, 
+      role: userRole._id,
     });
 
     await newUser.save();
@@ -41,7 +38,7 @@ export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username }).populate('role'); // Populate role
+    const user = await User.findOne({ username }).populate('role');
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.render('login', { csrfToken: req.csrfToken(), errorMessage: 'Authentication failed. Please check your username and password.' });
@@ -58,6 +55,5 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = (req, res) => {
   res.clearCookie('token');
-  res.clearCookie('shortUrl');
   res.redirect('/');
 };

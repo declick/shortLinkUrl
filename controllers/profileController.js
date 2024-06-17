@@ -2,9 +2,6 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 
 export const getProfile = (req, res) => {
-  if (!req.user) {
-    return res.redirect('/');
-  }
   res.render('profile', { user: req.user, csrfToken: req.csrfToken(), errorMessage: '' });
 };
 

@@ -9,10 +9,7 @@ import ensureAuthenticated  from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Middleware appliqués dans l'ordre
-router.get('/shorten', authMiddleware, (req, res) => {
-  if (!req.user) {
-    return res.redirect('/login');
-  }
+router.get('/shorten', authMiddleware, ensureAuthenticated ,csrfProtection, (req, res) => {
   res.render('shorten', { csrfToken: req.csrfToken(), user: req.user });
 });
 
