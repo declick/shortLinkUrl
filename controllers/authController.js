@@ -58,5 +58,6 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('shortUrl');
   res.redirect('/');
 };

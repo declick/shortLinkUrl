@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 import jsonwebtoken from 'jsonwebtoken';
 import { Server } from 'socket.io';
 import http from 'http';
-import session from 'express-session'; 
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
@@ -20,6 +19,7 @@ import activityLogRoutes from './routes/activityLogRoutes.js';
 import adminRoutes from './routes/adminRoutes.js'; 
 import pricingRoute from './routes/pricingRoute.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
+
 import authMiddleware, { attachUser, handleJwtError } from './middleware/authMiddleware.js';
 
 dotenv.config();
@@ -51,15 +51,6 @@ app.use(express.json());
 
 app.use(authMiddleware);
 app.use(attachUser);
-
-
-app.use(session({
-  secret: process.env.SECRET_KEY, 
-  resave: false,  
-  saveUninitialized: true,  
-  cookie: { secure: false } 
-}));
-
 
 app.use((req, res, next) => {
   const token = req.cookies.token;

@@ -40,8 +40,8 @@ export const createShortUrl = async (req, res) => {
 
     await newUrl.save();
 
-    // Stockez le shortlink dans la session
-    req.session.shortUrl = newUrl.shortUrl;
+    // Set the shortUrl in a cookie (replace 2 days with your desired expiration)
+    res.cookie('shortUrl', shortUrl, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true });
 
     // Redirigez vers la page de résultat
     res.redirect('/shortened');
@@ -86,7 +86,7 @@ export const redirectToOriginalUrl = async (req, res) => {
 };
 
 export const renderShortenedPage = (req, res) => {
-  const shortUrl = req.session.shortUrl;
+  const shortUrl = req.cookies.shortUrl; // Retrieve shortUrl from cookie
   if (shortUrl) {
     res.render('shortened', { shortUrl, csrfToken: req.csrfToken(), req });
   } else {

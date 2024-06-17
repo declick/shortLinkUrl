@@ -3,6 +3,9 @@
 import ActivityLog from '../models/ActivityLog.js';
 
 export const getActivityLog = async (req, res) => {
+  if (!req.user) {
+    return res.redirect('/');
+  }
   const page = parseInt(req.query.page) || 1;
   const limit = 10;
   const skip = (page - 1) * limit;
