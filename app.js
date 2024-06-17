@@ -7,11 +7,13 @@ import { fileURLToPath } from 'url';
 import jsonwebtoken from 'jsonwebtoken';
 import { Server } from 'socket.io';
 import http from 'http';
+import session from 'express-session'; 
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import activityLogRoutes from './routes/activityLogRoutes.js';
@@ -50,6 +52,15 @@ app.use(express.json());
 app.use(authMiddleware);
 app.use(attachUser);
 
+
+app.use(session({
+  secret: process.env.SECRET_KEY, 
+  resave: false,  
+  saveUninitialized: true,  
+  cookie: { secure: false } 
+}));
+
+
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
@@ -76,6 +87,7 @@ app.use('/', profileRoutes);
 app.use('/', adminRoutes);
 app.use('/', activityLogRoutes);
 app.use('/', pricingRoute);
+app.use('/', userRoutes);
 
 // Définir la route pour les short URLs à la fin
 app.use('/', urlRoutes);
