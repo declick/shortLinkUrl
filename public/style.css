@@ -1,32 +1,44 @@
-/* Reset some basic elements */
+/* Modern Web3 Style with Animations and Coherent Color Scheme */
+
+/* Reset basic elements */
 body, h1, h2, p, a, button {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: #121212;
+  color: #E0E0E0;
   line-height: 1.6;
 }
 
-.header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px 0;
-  text-align: center;
-}
-
-.header a {
-  color: #fff;
-  padding: 14px 20px;
+a{
   text-decoration: none;
-  text-transform: uppercase;
+  color: #03DAC6;
+}
+a:hover {
+  color: #018786;
 }
 
-.header a:hover {
-  background-color: #575757;
+a:active {
+  color: #028b74;
+}
+
+/* Header styling */
+.header {
+  background-color: linear-gradient(90deg,#4e4e4e,#212121);
+  color: #E0E0E0;
+  padding: 20px 0;
+  text-align: center;
+  border-bottom: 2px solid #333;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.header a:active {
+  color: #028b74;
 }
 
 /* Navbar styling */
@@ -35,6 +47,7 @@ body {
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
 }
 
 .navbar-left, .navbar-right {
@@ -48,16 +61,22 @@ body {
 }
 
 .navbar a {
-  color: #fff;
+  color: #6ef5e3;
   padding: 10px 15px;
   text-decoration: none;
   text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navbar a:hover {
-  background-color: #575757;
+  background-color: #333;
+  color: #E0E0E0;
   border-radius: 4px;
 }
+.navbar a:active {
+  background-color: #028b74;
+}
+
 
 /* Content styling */
 .content {
@@ -69,9 +88,9 @@ form {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  background: #1F1B24;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 form div {
@@ -82,41 +101,55 @@ form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #6ef5e3;
 }
 
 form input[type="text"],
 form input[type="password"],
 form input[type="file"] {
-  width: 100%;
+  width: 95.5%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #121212;
+  color: #E0E0E0;
+  transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="file"]:focus {
+  border-color: #6ef5e3;
 }
 
 form button {
   width: 100%;
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
+  background-color: #6ef5e3;
+  color: #121212;
   border: none;
-  text-decoration: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
 }
 
 form button:hover {
-  background-color: #575757;
-}
-
-.btn-danger {
-  background-color: #dc3545;
+  background-color: #00b49c;
   color: white;
 }
 
-.btn-danger:hover {
-  background-color: #c82333;
+.btn-danger {
+  background-color: #CF6679;
+  color: #121212;
 }
+
+.btn-danger:hover {
+  background-color: #B00020;
+  color: white;
+}
+
 
 ul {
   list-style-type: none;
@@ -124,26 +157,28 @@ ul {
 }
 
 li {
-  background: #fff;
+  background: #1F1B24;
   margin-bottom: 10px;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
+/* Icon styling */
 .fa-check-circle {
-  color: #28a745;
+  color: #03DAC6;
   margin-right: 10px;
 }
 
 /* Footer styling */
 footer {
-  background-color: #333;
-  color: #fff;
+  background-color: #212121;
+  color: #E0E0E0;
   text-align: center;
   padding: 10px 0;
   position: relative;
   bottom: 0;
   width: 100%;
+  border-top: 2px solid #333;
 }
 
 /* Table styling */
@@ -151,30 +186,33 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  background: #1F1B24;
 }
 
 table th, table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: 1px solid #333;
+  padding: 10px;
   text-align: left;
+  color: #E0E0E0;
 }
 
 table th {
-  background-color: #f2f2f2;
+  background-color: #333;
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #121212;
 }
 
 table tr:hover {
-  background-color: #ddd;
+  background-color: #333;
 }
 
 /* Home Page */
 .hero {
   text-align: center;
-  padding: 10px 20px;
+  padding: 50px 20px;
+  background: #121212;
 }
 
 .hero-content {
@@ -185,33 +223,37 @@ table tr:hover {
 .hero h1 {
   font-size: 3rem;
   margin-bottom: 20px;
+  color: #6ef5e3;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 30px;
+  color: #E0E0E0;
 }
 
 .btn-primary {
   width: 100%;
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
+  background-color: #03DAC6;
+  color: #121212;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   text-decoration: none;
+  text-transform: uppercase;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #575757;
+  background-color: #018786;
+  color: white;
 }
 
 .btn-primary.disabled {
-  background: #cccccc;
+  background: #333;
   pointer-events: none;
 }
 
@@ -225,27 +267,29 @@ table tr:hover {
 .shorten-form input[type="url"] {
   padding: 10px;
   width: 300px;
-  border: 1px solid #ccc;
+  border: 1px solid #333;
   border-radius: 5px;
   margin-bottom: 10px;
+  background-color: #121212;
+  color: #E0E0E0;
 }
 
 .btn-secondary {
-  background: #28a745;
-  color: #fff;
+  background: #03DAC6;
+  color: #121212;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .btn-secondary:hover {
-  background: #218838;
+  background: #018786;
 }
 
 .btn-secondary.disabled {
-  background: #cccccc;
+  background: #333;
   pointer-events: none;
 }
 
@@ -257,11 +301,13 @@ table tr:hover {
 .shorten-section h2 {
   font-size: 2rem;
   margin-bottom: 20px;
+  color: #6ef5e3;
 }
 
 .shorten-section p {
   font-size: 1.2rem;
   margin-bottom: 20px;
+  color: #E0E0E0;
 }
 
 .shorten-section ul {
@@ -278,24 +324,24 @@ table tr:hover {
 }
 
 .error-message {
-  color: red;
+  color: #CF6679;
   margin-bottom: 15px;
 }
 
 .btn-danger {
-  background-color: #d9534f;
-  color: #fff;
+  background-color: #CF6679;
+  color: #121212;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
   margin-top: 10px;
 }
 
 .btn-danger:hover {
-  background-color: #c9302c;
+  background-color: #B00020;
 }
 
 .form-button {
@@ -316,18 +362,19 @@ table tr:hover {
   display: inline-block;
   padding: 5px 10px;
   margin: 5px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #03DAC6;
+  color: #121212;
   text-decoration: none;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .btn-pagination.active {
-  background-color: #0056b3;
+  background-color: #018786;
 }
 
 .btn-pagination:hover {
-  background-color: #0056b3;
+  color: white;
 }
 
 /* Pricing Table */
@@ -338,10 +385,10 @@ table tr:hover {
 }
 
 .pricing-plan {
-  background: #fff;
-  border: 1px solid #ddd;
+  background: #1F1B24;
+  border: 1px solid #333;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   margin: 10px;
   flex: 1;
   max-width: 30%;
@@ -356,13 +403,13 @@ table tr:hover {
 }
 
 .pricing-plan h2 {
-  color: #007BFF;
+  color: #03DAC6;
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 .pricing-plan p {
-  color: #666;
+  color: #E0E0E0;
   font-size: 16px;
   margin-bottom: 20px;
 }
@@ -374,15 +421,16 @@ table tr:hover {
 }
 
 .pricing-plan ul li {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: #121212;
+  border: 1px solid #333;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 10px;
+  color: #E0E0E0;
 }
 
 .btn-disabled {
-  background: #cccccc;
+  background: #333;
   cursor: not-allowed;
   pointer-events: none;
 }
