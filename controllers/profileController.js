@@ -5,7 +5,11 @@ export const getProfile = (req, res) => {
   if (!req.user) {
     return res.redirect('/');
   }
-  res.render('profile', { user: req.user, csrfToken: req.csrfToken(), errorMessage: '' });
+  res.render('profile', { 
+    user: req.user, 
+    csrfToken: req.csrfToken(), 
+    errorMessage: null 
+  });
 };
 
 export const updateProfile = async (req, res) => {

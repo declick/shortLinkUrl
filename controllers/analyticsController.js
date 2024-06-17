@@ -24,6 +24,9 @@ const calculateStatistics = (url) => {
 };
 
 export const getAnalytics = async (req, res) => {
+  if (!req.user) {
+    return res.redirect('/');
+  }
   const { shortUrl } = req.params;
 
   try {
