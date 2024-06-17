@@ -11,7 +11,7 @@ const authMiddleware = jwt({
   algorithms: ['HS256'],
   getToken: (req) => req.cookies.token,
   requestProperty: 'user',
-  credentialsRequired: false,
+  credentialsRequired: false, 
 });
 
 const attachUser = async (req, res, next) => {
@@ -39,13 +39,6 @@ const attachUser = async (req, res, next) => {
     res.locals.isAdmin = false;
   }
   next();
-};
-
-export const handleJwtError = (err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    return res.redirect('/');
-  }
-  next(err);
 };
 
 export { attachUser };

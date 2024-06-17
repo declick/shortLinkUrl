@@ -1,15 +1,24 @@
+// routes/urlRoutes.js
+
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
-import { createShortUrl, redirectToOriginalUrl, renderShortenedPage } from '../controllers/urlController.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
+import { createShortUrl, redirectToOriginalUrl } from '../controllers/urlController.js';
+import ensureAuthenticated  from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/shorten', authMiddleware, csrfProtection, (req, res) => {
+// Middleware appliqués dans l'ordre
+router.get('/shorten', authMiddleware, (req, res) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
   res.render('shorten', { csrfToken: req.csrfToken(), user: req.user });
 });
-router.post('/shorten', authMiddleware, csrfProtection, createShortUrl);
-router.get('/shortened', authMiddleware, csrfProtection, renderShortenedPage);
+
+// Routes pour les opérations correspondantes
+router.post('/shorten', authMiddleware, ensureAuthenticated ,csrfProtection, createShortUrl);
 router.get('/:shortUrl', redirectToOriginalUrl);
+
 
 export default router;

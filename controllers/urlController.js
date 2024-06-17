@@ -28,7 +28,6 @@ const calculateStatistics = (url) => {
 
 export const createShortUrl = async (req, res) => {
   const { originalUrl } = req.body;
-
   try {
     // Créez un nouveau shortlink
     const shortUrl = shortid.generate();
@@ -44,7 +43,7 @@ export const createShortUrl = async (req, res) => {
     res.cookie('shortUrl', shortUrl, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true });
 
     // Redirigez vers la page de résultat
-    res.redirect('/shortened');
+    res.redirect('/dashboard');
   } catch (error) {
     console.error('Error creating short URL', error);
     res.status(500).json({ error: 'Error creating short URL' });
@@ -82,14 +81,5 @@ export const redirectToOriginalUrl = async (req, res) => {
   } catch (error) {
     console.error('Error redirecting URL:', error);
     res.status(500).json({ error: 'Error redirecting URL' });
-  }
-};
-
-export const renderShortenedPage = (req, res) => {
-  const shortUrl = req.cookies.shortUrl; // Retrieve shortUrl from cookie
-  if (shortUrl) {
-    res.render('shortened', { shortUrl, csrfToken: req.csrfToken(), req });
-  } else {
-    res.redirect('/shorten');
   }
 };
