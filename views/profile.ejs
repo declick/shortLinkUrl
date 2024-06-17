@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <%- include('partials/header', { user: user,isAdmin: isAdmin }) %>
+  <%- include('partials/header', { user: user, isAdmin: isAdmin }) %>
   <div class="content">
     <h1>Profile</h1>
     <% if (errorMessage) { %>
@@ -17,18 +17,20 @@
     <% } %>
     <form id="profile-form" action="/profile" method="POST">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" value="<%= user.username %>" required>
-      <label for="currentPassword">Current Password:</label>
-      <input type="password" id="currentPassword" name="currentPassword">
-      <label for="password">New Password:</label>
-      <input type="password" id="password" name="password" placeholder="Leave blank if not changing">
-      <label for="confirmPassword">Confirm New Password:</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Leave blank if not changing">
-      <div class="form-buttons">
-        <button type="submit" class="btn-primary">Update Profile</button>
-        <button type="button" id="delete-account-btn" class="btn-danger">Delete Account</button>
-      </div>
+      <% if (user) { %>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="<%= user.username %>" required>
+        <label for="currentPassword">Current Password:</label>
+        <input type="password" id="currentPassword" name="currentPassword">
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password" placeholder="Leave blank if not changing">
+        <label for="confirmPassword">Confirm New Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Leave blank if not changing">
+        <div class="form-buttons">
+          <button type="submit" class="btn-primary">Update Profile</button>
+          <button type="button" id="delete-account-btn" class="btn-danger">Delete Account</button>
+        </div>
+      <% } %>
     </form>
   </div>
   <%- include('partials/footer') %>

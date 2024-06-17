@@ -21,6 +21,7 @@ import pricingRoute from './routes/pricingRoute.js';
 import csrfProtection from './middleware/csrfMiddleware.js';
 import {authMiddleware,  attachUser  } from './middleware/authMiddleware.js';
 import handleJwtError from './middleware/errorMiddleware.js';
+import disableCache from './middleware/cacheControl.js'; 
 
 
 dotenv.config();
@@ -49,6 +50,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(csrfProtection);
 app.use(express.json());
+
+app.use(disableCache);
 
 app.use(authMiddleware);
 app.use(attachUser);

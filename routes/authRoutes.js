@@ -2,6 +2,7 @@ import express from 'express';
 import { registerUser, loginUser, logoutUser } from '../controllers/authController.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
 import { authMiddleware, attachUser } from '../middleware/authMiddleware.js';
+import disableCache from '../middleware/cacheControl.js';
 
 const router = express.Router();
 
@@ -21,6 +22,6 @@ router.get('/login', csrfProtection, (req, res) => {
 
 router.post('/login', csrfProtection, loginUser);
 
-router.get('/logout', logoutUser);
+router.get('/logout', disableCache,logoutUser);
 
 export default router;

@@ -1,9 +1,12 @@
 import express from 'express';
-import {authMiddleware} from '../middleware/authMiddleware.js';
+import { authMiddleware, attachUser } from '../middleware/authMiddleware.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
 import { getProfile, updateProfile, deleteProfile } from '../controllers/profileController.js';
 
 const router = express.Router();
+
+router.use(authMiddleware); 
+router.use(attachUser); 
 
 router.get('/profile', authMiddleware, csrfProtection, getProfile);
 router.post('/profile', authMiddleware, csrfProtection, updateProfile);

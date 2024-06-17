@@ -1,3 +1,5 @@
+// controllers/authController.js
+
 import User from '../models/User.js';
 import Role from '../models/Role.js';
 import bcrypt from 'bcrypt';
@@ -23,7 +25,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
-      role: userRole._id,
+      role: userRole._id, 
     });
 
     await newUser.save();
