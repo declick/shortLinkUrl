@@ -11,7 +11,7 @@ router.get('/shorten', authMiddleware, (req, res) => {
   if (!req.user) {
     return res.redirect('/');
   }
-  res.render('shorten', { csrfToken: req.csrfToken(), user: req.user });
+  res.render('shorten', { csrfToken: req.csrfToken(), user: req.user,errorMessage: null  });
 });
 
 // Routes pour les opérations correspondantes

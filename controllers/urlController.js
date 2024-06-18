@@ -2,6 +2,7 @@ import shortid from 'shortid';
 import Url from '../models/Url.js';
 import io from '../app.js';
 import geoip from 'geoip-lite';
+import validator from 'validator';
 
 const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
@@ -28,8 +29,18 @@ const calculateStatistics = (url) => {
 
 export const createShortUrl = async (req, res) => {
   const { originalUrl } = req.body;
+
+  // Validate the URL
+  if (!validator.isURL(originalUrl)) {
+    return res.render('shorten', {
+      csrfToken: req.csrfToken(),
+      user: req.user,
+      isAdmin: req.user && req.user.role && req.user.role.name === 'admin',
+      errorMessage: 'Invalid URL. Please enter a valid URL.'
+    });
+  }
+
   try {
-    // Créez un nouveau shortlink
     const shortUrl = shortid.generate();
     const newUrl = new Url({
       originalUrl,
@@ -38,11 +49,7 @@ export const createShortUrl = async (req, res) => {
     });
 
     await newUrl.save();
-
-    // Set the shortUrl in a cookie (replace 2 days with your desired expiration)
     res.cookie('shortUrl', shortUrl, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true });
-
-    // Redirigez vers la page de résultat
     res.redirect('/dashboard');
   } catch (error) {
     console.error('Error creating short URL', error);
@@ -79,7 +86,7 @@ export const redirectToOriginalUrl = async (req, res) => {
 
     res.redirect(url.originalUrl);
   } catch (error) {
-    console.error('Error redirecting URL:', error);
+    console.error('Error redirecting URL', error);
     res.status(500).json({ error: 'Error redirecting URL' });
   }
 };

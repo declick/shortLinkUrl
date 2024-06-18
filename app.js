@@ -73,6 +73,7 @@ app.use((req, res, next) => {
   }
 });
 
+
 // Définir les routes spécifiques
 app.use('/', homeRoutes);
 app.use('/', authRoutes);
@@ -83,8 +84,6 @@ app.use('/', adminRoutes);
 app.use('/', activityLogRoutes);
 app.use('/', pricingRoute);
 app.use('/', userRoutes);
-
-// Définir la route pour les short URLs à la fin
 app.use('/', urlRoutes);
 
 app.use(handleJwtError);

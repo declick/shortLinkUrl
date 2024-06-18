@@ -30,7 +30,7 @@ const simulateClick = async (shortUrl, ip) => {
 };
 
 // URL raccourcie à tester
-const shortUrl = 'yADFn5YGJ'; // Remplacez par votre short URL
+const shortUrl = 'ext9p-Q9A'; // Remplacez par votre short URL
 
 // Simuler des clics à partir de différentes adresses IP
 ips.forEach(ip => simulateClick(shortUrl, ip));
