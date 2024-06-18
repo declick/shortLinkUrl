@@ -8,9 +8,10 @@ const ips = [
   '139.130.4.5', // Australia
   '91.198.174.192', // Netherlands
   '196.25.1.1',  // South Africa
-  '64.233.160.0', // Canada
+  '100.42.20.0', // Canada
   '62.141.58.13',  // Germany
-  '79.41.123.211' // Italy
+  '79.41.123.211', // Italy
+  '1.178.32.0' // Brazil
 ];
 
 // Fonction pour simuler un clic
@@ -30,7 +31,7 @@ const simulateClick = async (shortUrl, ip) => {
 };
 
 // URL raccourcie à tester
-const shortUrl = 'ext9p-Q9A'; // Remplacez par votre short URL
+const shortUrl = 'gojhNnoSO'; // Remplacez par votre short URL
 
 // Simuler des clics à partir de différentes adresses IP
 ips.forEach(ip => simulateClick(shortUrl, ip));

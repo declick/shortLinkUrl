@@ -10,11 +10,7 @@ const calculateStatistics = (url) => {
 
   clicks.forEach(click => {
     const country = click.country || 'Unknown';
-    if (countryClicks[country]) {
-      countryClicks[country]++;
-    } else {
-      countryClicks[country] = 1;
-    }
+    countryClicks[country] = (countryClicks[country] || 0) + 1;
   });
 
   const totalClicks = clicks.length;
@@ -30,12 +26,11 @@ const calculateStatistics = (url) => {
 export const createShortUrl = async (req, res) => {
   const { originalUrl } = req.body;
 
-  // Validate the URL
   if (!validator.isURL(originalUrl)) {
     return res.render('shorten', {
       csrfToken: req.csrfToken(),
       user: req.user,
-      isAdmin: req.user && req.user.role && req.user.role.name === 'admin',
+      isAdmin: req.user?.role?.name === 'admin',
       errorMessage: 'Invalid URL. Please enter a valid URL.'
     });
   }
@@ -69,7 +64,7 @@ export const redirectToOriginalUrl = async (req, res) => {
 
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const geo = geoip.lookup(ip);
-    const country = geo && geo.country ? geo.country : 'Unknown';
+    const country = geo?.country || 'Unknown';
 
     url.clicks.push({
       ip,
