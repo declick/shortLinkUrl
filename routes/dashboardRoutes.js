@@ -1,6 +1,6 @@
 import express from 'express';
-import { authMiddleware } from '../middleware/authMiddleware.js';
 import { getDashboard, deleteShortUrl } from '../controllers/dashboardController.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';
 
 const router = express.Router();

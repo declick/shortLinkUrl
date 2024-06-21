@@ -1,11 +1,9 @@
-// controllers/urlController.js
-
 import shortid from 'shortid';
 import Url from '../models/Url.js';
 import io from '../app.js';
 import geoip from 'geoip-lite';
 import validator from 'validator';
-import { getTotalClicks, getBestShortlink } from './dashboardController.js';
+import { getTotalClicks, getBestShortlink } from './analyticsController.js';
 
 const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
@@ -69,31 +67,32 @@ export const redirectToOriginalUrl = async (req, res) => {
     const geo = geoip.lookup(ip);
     const country = geo?.country || 'Unknown';
 
-    url.clicks.push({
+    const clickData = {
       ip,
       referer: req.get('Referer'),
       userAgent: req.get('User-Agent'),
       country,
-    });
+      timestamp: new Date()
+    };
 
+    url.clicks.push(clickData);
     await url.save();
 
     const stats = calculateStatistics(url);
 
-    // Emettre l'événement clickUpdate avec les nouvelles statistiques
-    io.emit('clickUpdate', { 
-      shortUrl: url.shortUrl, 
-      clickCount: url.clicks.length, 
-      stats 
-    });
+    io.emit('clickUpdate', { shortUrl: url.shortUrl, clickCount: url.clicks.length, stats });
 
-    // Emettre l'événement updateStats pour mettre à jour le dashboard en temps réel
     const totalClicks = await getTotalClicks();
     const bestShortlink = await getBestShortlink();
     io.emit('updateStats', { 
       totalClicks: totalClicks || 0, 
       bestShortlink: bestShortlink ? bestShortlink.shortUrl : '', 
-      bestShortlinkClicks: bestShortlink ? bestShortlink.clicks.length : 0 
+      bestShortlinkClicks: bestShortlink ? bestShortlink.clicks.length : 0,
+      stats: {
+        averageDailyClicks: stats.averageDailyClicks,
+        averageWeeklyClicks: stats.averageWeeklyClicks,
+        averageMonthlyClicks: stats.averageMonthlyClicks
+      }
     });
 
     res.redirect(url.originalUrl);
