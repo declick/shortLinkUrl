@@ -1,5 +1,3 @@
-// routes/dashboardRoutes.js
-
 import express from 'express';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { getDashboard, deleteShortUrl } from '../controllers/dashboardController.js';

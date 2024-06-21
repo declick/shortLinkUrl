@@ -1,3 +1,5 @@
+// routes/authRoutes.js
+
 import express from 'express';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import csrfProtection from '../middleware/csrfMiddleware.js';

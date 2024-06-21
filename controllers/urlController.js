@@ -1,8 +1,11 @@
+// controllers/urlController.js
+
 import shortid from 'shortid';
 import Url from '../models/Url.js';
 import io from '../app.js';
 import geoip from 'geoip-lite';
 import validator from 'validator';
+import { getTotalClicks, getBestShortlink } from './dashboardController.js';
 
 const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
@@ -77,7 +80,21 @@ export const redirectToOriginalUrl = async (req, res) => {
 
     const stats = calculateStatistics(url);
 
-    io.emit('clickUpdate', { shortUrl: url.shortUrl, clickCount: url.clicks.length, stats });
+    // Emettre l'événement clickUpdate avec les nouvelles statistiques
+    io.emit('clickUpdate', { 
+      shortUrl: url.shortUrl, 
+      clickCount: url.clicks.length, 
+      stats 
+    });
+
+    // Emettre l'événement updateStats pour mettre à jour le dashboard en temps réel
+    const totalClicks = await getTotalClicks();
+    const bestShortlink = await getBestShortlink();
+    io.emit('updateStats', { 
+      totalClicks: totalClicks || 0, 
+      bestShortlink: bestShortlink ? bestShortlink.shortUrl : '', 
+      bestShortlinkClicks: bestShortlink ? bestShortlink.clicks.length : 0 
+    });
 
     res.redirect(url.originalUrl);
   } catch (error) {
