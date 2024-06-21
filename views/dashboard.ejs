@@ -12,6 +12,14 @@
   <div class="content">
     <h1>Dashboard</h1>
     <p>Welcome, <%= user.username %>!</p>
+
+    <!-- New Section for Analytics -->
+    <h2>Analytics</h2>
+    <div class="analytics">
+      <div id="totalClicks" class="analytics-box">Total Clicks: <%= totalClicks %></div>
+      <div id="bestShortlink" class="analytics-box">Best Shortlink: <%= bestShortlink %> (<%= bestShortlinkClicks %> clicks)</div>
+    </div>
+
     <h2>Your Short URLs</h2>
     <ul id="url-list">
       <% urls.forEach(url => { %>
@@ -27,7 +35,7 @@
         </li>
       <% }) %>
     </ul>
-    
+
     <div class="pagination">
       <% if (currentPage > 1) { %>
         <a href="?page=<%= currentPage - 1 %>" class="btn-pagination">Previous</a>
@@ -45,6 +53,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     const socket = io();
+
+    socket.on('updateStats', function(data) {
+      document.getElementById('totalClicks').innerText = `Total Clicks: ${data.totalClicks}`;
+      document.getElementById('bestShortlink').innerText = data.bestShortlink 
+        ? `Best Shortlink: ${data.bestShortlink} (${data.bestShortlinkClicks} clicks)`
+        : 'Best Shortlink: ';
+    });
 
     socket.on('urlDeleted', function(data) {
       const urlElement = document.getElementById('url-' + data.shortUrl);

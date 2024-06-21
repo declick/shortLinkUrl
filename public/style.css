@@ -170,6 +170,33 @@ li {
   margin-right: 10px;
 }
 
+/* Analytics Section in Dashboard */
+.analytics {
+  display: flex;
+  justify-content: space-around;
+  color: #6ef5e3;
+  margin-bottom: 20px;
+}
+
+.analytics-box {
+  background-color: #1F1B24;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 45%;
+}
+
+.analytics-box h2 {
+  font-size: 1.5rem;
+  color: #6ef5e3;
+  margin-bottom: 10px;
+}
+
+.analytics-box p {
+  font-size: 1rem;
+  color: #E0E0E0;
+}
 /* Footer styling */
 footer {
   background-color: #212121;
