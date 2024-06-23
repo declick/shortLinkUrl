@@ -1,5 +1,6 @@
 import Url from '../models/Url.js';
 import { getTotalClicks, getBestShortlink } from './analyticsController.js';
+import  io  from '../app.js';
 
 const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
