@@ -18,9 +18,9 @@
       const monthlyClicksElement = document.getElementById('averageMonthlyClicks');
 
       clicksCountElement.innerText = stats.totalClicks;
-      dailyClicksElement.innerText = stats.averageDailyClicks;
-      weeklyClicksElement.innerText = stats.averageWeeklyClicks;
-      monthlyClicksElement.innerText = stats.averageMonthlyClicks;
+      dailyClicksElement.innerText = stats.averageDailyClicks || '0.00';
+      weeklyClicksElement.innerText = stats.averageWeeklyClicks || '0.00';
+      monthlyClicksElement.innerText = stats.averageMonthlyClicks || '0.00';
 
       countryListElement.innerHTML = '';
 

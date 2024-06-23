@@ -9,7 +9,26 @@ const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
   const countryClicks = {};
 
+  const currentTime = new Date();
+  let dailyClicks = 0;
+  let weeklyClicks = 0;
+  let monthlyClicks = 0;
+
   clicks.forEach(click => {
+    const clickDate = new Date(click.timestamp);
+    const timeDiff = currentTime - clickDate;
+
+    const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+    if (daysDiff <= 1) {
+      dailyClicks++;
+    }
+    if (daysDiff <= 7) {
+      weeklyClicks++;
+    }
+    if (daysDiff <= 30) {
+      monthlyClicks++;
+    }
+
     const country = click.country || 'Unknown';
     countryClicks[country] = (countryClicks[country] || 0) + 1;
   });
@@ -21,7 +40,11 @@ const calculateStatistics = (url) => {
     countryPercentages[country] = ((countryClicks[country] / totalClicks) * 100).toFixed(2);
   }
 
-  return { totalClicks, countryPercentages };
+  const averageDailyClicks = (dailyClicks / 1).toFixed(2);
+  const averageWeeklyClicks = (weeklyClicks / 7).toFixed(2);
+  const averageMonthlyClicks = (monthlyClicks / 30).toFixed(2);
+
+  return { totalClicks, countryPercentages, averageDailyClicks, averageWeeklyClicks, averageMonthlyClicks };
 };
 
 export const createShortUrl = async (req, res) => {
@@ -87,12 +110,7 @@ export const redirectToOriginalUrl = async (req, res) => {
     io.emit('updateStats', { 
       totalClicks: totalClicks || 0, 
       bestShortlink: bestShortlink ? bestShortlink.shortUrl : '', 
-      bestShortlinkClicks: bestShortlink ? bestShortlink.clicks.length : 0,
-      stats: {
-        averageDailyClicks: stats.averageDailyClicks,
-        averageWeeklyClicks: stats.averageWeeklyClicks,
-        averageMonthlyClicks: stats.averageMonthlyClicks
-      }
+      bestShortlinkClicks: bestShortlink ? bestShortlink.clicks.length : 0
     });
 
     res.redirect(url.originalUrl);
