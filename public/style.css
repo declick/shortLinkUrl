@@ -13,10 +13,11 @@ body {
   line-height: 1.6;
 }
 
-a{
+a {
   text-decoration: none;
   color: #03DAC6;
 }
+
 a:hover {
   color: #018786;
 }
@@ -27,15 +28,13 @@ a:active {
 
 /* Header styling */
 .header {
-  background-color: linear-gradient(90deg,#4e4e4e,#212121);
+  background-color: linear-gradient(90deg, #4e4e4e, #212121);
   color: #E0E0E0;
   padding: 20px 0;
   text-align: center;
   border-bottom: 2px solid #333;
   transition: background-color 0.3s ease;
 }
-
-
 
 .header a:active {
   color: #028b74;
@@ -48,7 +47,6 @@ a:active {
   justify-content: space-around;
   align-items: center;
   padding: 10px 0px 10px 0px;
-
 }
 
 .navbar-left, .navbar-right {
@@ -74,10 +72,10 @@ a:active {
   color: #E0E0E0;
   border-radius: 4px;
 }
+
 .navbar a:active {
   background-color: #028b74;
 }
-
 
 /* Content styling */
 .content {
@@ -151,7 +149,6 @@ form button:hover {
   color: white;
 }
 
-
 ul {
   list-style-type: none;
   padding: 0;
@@ -197,6 +194,7 @@ li {
   font-size: 1rem;
   color: #E0E0E0;
 }
+
 /* Footer styling */
 footer {
   background-color: #212121;
@@ -461,6 +459,29 @@ table tr:hover {
   background: #333;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 15px;
+  appearance: none;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.progress-bar::-webkit-progress-bar {
+  background-color: #333;
+}
+
+.progress-bar::-webkit-progress-value {
+  background-color: #03DAC6;
+  transition: width 0.4s ease-in-out;
+}
+
+.progress-bar::-moz-progress-bar {
+  background-color: #03DAC6;
+  transition: width 0.4s ease-in-out;
 }
 
 /* Responsive styles */

@@ -29,6 +29,7 @@
         li.innerHTML = `
           <img src="/flags/${country.toLowerCase()}.png" alt="${country} flag" style="width: 20px; height: 15px;">
           ${country}: ${stats.countryPercentages[country]}%
+          <progress value="${stats.countryPercentages[country]}" max="100" class="progress-bar"></progress>
         `;
         countryListElement.appendChild(li);
       }
@@ -64,6 +65,7 @@
         <li>
           <img src="/flags/<%= country.toLowerCase() %>.png" alt="<%= country %> flag" style="width: 20px; height: 15px;">
           <%= country %>: <%= countryPercentages[country] %>%
+          <progress value="<%= countryPercentages[country] %>" max="100" class="progress-bar"></progress>
         </li>
       <% } %>
     </ul>

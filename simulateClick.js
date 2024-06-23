@@ -3,6 +3,7 @@ import geoip from 'geoip-lite';
 
 // Liste des adresses IP de différents pays pour simuler les clics
 const ips = [
+  '51.158.78.1', // F
   '51.158.78.1', // France
   '81.2.69.160', // UK
   '139.130.4.5', // Australia
@@ -34,7 +35,7 @@ const simulateClick = async (shortUrl, ip) => {
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // URL raccourcie à tester
-const shortUrl = 'du-J-aLZN'; // Remplacez par votre short URL
+const shortUrl = 'TXWWjkUPp'; // Remplacez par votre short URL
 
 // Simuler des clics à partir de différentes adresses IP avec un délai entre chaque clic
 const simulateClicks = async () => {
