@@ -3,49 +3,7 @@ import Url from '../models/Url.js';
 import io from '../app.js';
 import geoip from 'geoip-lite';
 import validator from 'validator';
-import { getTotalClicks, getBestShortlink } from './analyticsController.js';
-
-const calculateStatistics = (url) => {
-  const clicks = url.clicks || [];
-  const countryClicks = {};
-
-  const currentTime = new Date();
-  let dailyClicks = 0;
-  let weeklyClicks = 0;
-  let monthlyClicks = 0;
-
-  clicks.forEach(click => {
-    const clickDate = new Date(click.timestamp);
-    const timeDiff = currentTime - clickDate;
-
-    const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
-    if (daysDiff <= 1) {
-      dailyClicks++;
-    }
-    if (daysDiff <= 7) {
-      weeklyClicks++;
-    }
-    if (daysDiff <= 30) {
-      monthlyClicks++;
-    }
-
-    const country = click.country || 'Unknown';
-    countryClicks[country] = (countryClicks[country] || 0) + 1;
-  });
-
-  const totalClicks = clicks.length;
-  const countryPercentages = {};
-
-  for (const country in countryClicks) {
-    countryPercentages[country] = ((countryClicks[country] / totalClicks) * 100).toFixed(2);
-  }
-
-  const averageDailyClicks = (dailyClicks / 1).toFixed(2);
-  const averageWeeklyClicks = (weeklyClicks / 7).toFixed(2);
-  const averageMonthlyClicks = (monthlyClicks / 30).toFixed(2);
-
-  return { totalClicks, countryPercentages, averageDailyClicks, averageWeeklyClicks, averageMonthlyClicks };
-};
+import { getTotalClicks, getBestShortlink, calculateStatistics} from './analyticsController.js';
 
 export const createShortUrl = async (req, res) => {
   const { originalUrl } = req.body;

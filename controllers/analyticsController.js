@@ -2,7 +2,7 @@
 
 import Url from '../models/Url.js';
 
-const calculateStatistics = (url) => {
+export const calculateStatistics = (url) => {
   const clicks = url.clicks || [];
   const countryClicks = {};
 

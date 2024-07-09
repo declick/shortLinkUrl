@@ -35,7 +35,7 @@ const simulateClick = async (shortUrl, ip) => {
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // URL raccourcie à tester
-const shortUrl = 'TXWWjkUPp'; // Remplacez par votre short URL
+const shortUrl = 'v5_WIvqya'; // Remplacez par votre short URL
 
 // Simuler des clics à partir de différentes adresses IP avec un délai entre chaque clic
 const simulateClicks = async () => {
